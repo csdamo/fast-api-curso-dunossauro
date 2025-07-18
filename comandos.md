@@ -54,3 +54,21 @@ uvicorn fast_zero.app:app
   - Um formatador de código. Para seguirmos um estilo único de código. Vamos nos basear na PEP-8.
 
 poetry add --group dev pytest pytest-cov taskipy ruff
+
+# Trabalhando com sqlalchemy
+poetry add sqlalchemy
+
+# variáveis de ambiente
+poetry add pydantic-settings
+
+# migrações do banco de dados
+poetry add alembic
+alembic init migrations
+alembic revision --autogenerate -m "create users table"
+alembic upgrade head
+alembic downgrade -1 // voltar uma migração 
+alembic revision --autogenerate -m "exercicio 02 aula 04"
+
+
+# ver BD de forma gráfica
+pipx run harlequin .\database.db
