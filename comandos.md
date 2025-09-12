@@ -111,7 +111,6 @@ pipx run ignr -p python > .gitignore
 
 
 
-
 # Trabalhando com sqlalchemy
 poetry add sqlalchemy
 
