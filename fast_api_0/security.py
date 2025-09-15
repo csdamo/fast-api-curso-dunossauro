@@ -11,15 +11,12 @@ from sqlalchemy.orm import Session
 
 from fast_api_0.database import get_session
 from fast_api_0.models import User
+from fast_api_0.settings import Settings
 
-# Isso é provisório, vamos ajustar!
-SECRET_KEY = 'ef56fd4b8e933dee1a1d430022b6e773cc0a8965614e9b8e66'
-ALGORITHM = 'HS256'
-ACCESS_TOKEN_EXPIRE_MINUTES = 30
 pwd_context = PasswordHash.recommended()
+t_settings = Settings()  # type: ignore
 
-
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl='token')
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl='auth/token')
 
 
 def get_current_user(
@@ -33,7 +30,9 @@ def get_current_user(
     )
 
     try:
-        payload = decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        payload = decode(
+            token, t_settings.SECRET_KEY, algorithms=[t_settings.ALGORITHM]
+        )
         subject_email = payload.get('sub')
 
         if not subject_email:
@@ -61,8 +60,10 @@ def verify_password(plain_password: str, hashed_password: str):
 def create_access_token(data: dict):
     to_encode = data.copy()
     expire = datetime.now(tz=ZoneInfo('UTC')) + timedelta(
-        minutes=ACCESS_TOKEN_EXPIRE_MINUTES
+        minutes=t_settings.ACCESS_TOKEN_EXPIRE_MINUTES
     )
     to_encode.update({'exp': expire})
-    encoded_jwt = encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+    encoded_jwt = encode(
+        to_encode, t_settings.SECRET_KEY, algorithm=t_settings.ALGORITHM
+    )
     return encoded_jwt
