@@ -128,3 +128,19 @@ alembic revision --autogenerate -m "exercicio 02 aula 04"
 
 # ver BD de forma gráfica
 pipx run harlequin .\database.db
+
+
+
+poetry add "psycopg[binary]"
+
+
+poetry add --group dev testcontainers
+
+
+ docker build -t "fastapi_zero"
+
+ docker run -it --name fastzeroapp -p 8000:8000 fastapi_zero:latest
+
+
+docker compose up --build
+ docker compose up

@@ -1,3 +1,5 @@
+import asyncio
+import sys
 from http import HTTPStatus
 
 from fastapi import FastAPI
@@ -7,7 +9,10 @@ from fast_api_0.routers import auth, todos, users
 
 from .schemas import Message
 
-app = FastAPI()
+if sys.platform == 'win32':
+    asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
+
+app = FastAPI(title='Minha API')
 
 app.include_router(auth.router)
 app.include_router(users.router)
