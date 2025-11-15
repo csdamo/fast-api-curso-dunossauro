@@ -144,3 +144,7 @@ poetry add --group dev testcontainers
 
 docker compose up --build
  docker compose up
+
+
+
+ gh secret set -f .env
